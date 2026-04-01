@@ -1,0 +1,81 @@
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// 🔥 너 Firebase 콘솔에서 복사한 값 넣기
+const firebaseConfig = {
+    apiKey: "AIzaSyBPPUut-J5ZQL-men5X6b2992oihSxgw88",
+    authDomain: "karen-c7aee.firebaseapp.com",
+    projectId: "karen-c7aee",
+    storageBucket: "karen-c7aee.firebasestorage.app",
+    messagingSenderId: "649004770122",
+    appId: "1:649004770122:web:b177abef3872ced4de97b3",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const ADMIN_PASSWORD = "1313";
+let surveyRecords = [];
+
+function $(id){ return document.getElementById(id); }
+
+// =======================
+// 🔥 설문 제출 (Firebase 저장)
+// =======================
+window.submitSurvey = async function(){
+  const name = $("participantName").value.trim() || "익명";
+  const q1 = $("q1").value;
+  const q2 = $("q2").value;
+  const q3 = $("q3").value;
+  const q4 = $("q4").value;
+  const q5 = $("q5").value;
+
+  if(!q1 || !q2 || !q3 || !q4 || !q5){
+    alert("모든 문항을 입력해주세요");
+    return;
+  }
+
+  await addDoc(collection(db, "kioskSurvey"), {
+    name, q1, q2, q3, q4, q5,
+    createdAt: new Date()
+  });
+
+  alert("설문이 제출되었습니다!");
+  location.reload();
+}
+
+// =======================
+// 🔥 관리자 통계 불러오기
+// =======================
+async function loadData(){
+  const querySnapshot = await getDocs(collection(db, "kioskSurvey"));
+  surveyRecords = [];
+
+  querySnapshot.forEach(doc => {
+    surveyRecords.push(doc.data());
+  });
+
+  updateStats();
+}
+
+// =======================
+// 기존 통계 함수 그대로 사용
+// =======================
+window.unlockResults = function(){
+  if($("adminPassword").value === ADMIN_PASSWORD){
+    $("surveyView").classList.add("hidden");
+    $("adminView").classList.remove("hidden");
+    loadData();
+  }else{
+    alert("비밀번호 틀림");
+  }
+}
+
+window.goBackToSurvey = function(){
+  $("adminView").classList.add("hidden");
+  $("surveyView").classList.remove("hidden");
+}
+
+// 기존 updateStats 함수 그대로 붙이면 됨
+</script>
