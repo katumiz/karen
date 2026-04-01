@@ -9,7 +9,6 @@
       --bg1: #fff9f4;
       --bg2: #fde8e8;
       --card: rgba(255,255,255,0.72);
-      --line: #2f2a26;
       --accent: #e97b7b;
       --accent2: #f6c56f;
       --text: #3b322d;
@@ -49,7 +48,6 @@
       background: var(--card);
       border: 1px solid rgba(255,255,255,0.7);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border-radius: 34px;
       box-shadow: var(--shadow);
       position: relative;
@@ -69,7 +67,6 @@
       color: var(--muted);
       font-size: 14px;
       font-weight: 700;
-      letter-spacing: 0.02em;
       box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     }
 
@@ -84,16 +81,13 @@
       margin: 20px 0 14px;
       font-size: clamp(46px, 8vw, 86px);
       line-height: 0.95;
-      letter-spacing: -0.04em;
     }
 
     .script {
       display: block;
-      font-family: "Brush Script MT", "Segoe Script", cursive;
+      font-family: "Brush Script MT", cursive;
       color: var(--accent);
       font-size: clamp(34px, 6vw, 62px);
-      line-height: 1;
-      margin-top: 6px;
       transform: rotate(-3deg);
     }
 
@@ -111,6 +105,8 @@
       flex-wrap: wrap;
       gap: 14px;
       margin-top: 30px;
+      position: relative;
+      z-index: 2;
     }
 
     .btn {
@@ -149,6 +145,13 @@
       border-radius: 50%;
       filter: blur(2px);
       opacity: 0.4;
+      pointer-events: none; /* 🔥 핵심 수정 */
+      z-index: 0;
+    }
+
+    .text-card > *:not(.float) {
+      position: relative;
+      z-index: 1;
     }
 
     .f1 { width: 140px; height: 140px; background: #ffd6dc; top: -22px; right: 30px; }
@@ -177,12 +180,12 @@
         </h1>
 
         <p class="desc">
-          HI~!
+          HI~!!
         </p>
 
         <div class="actions">
-          <a href="https://katumiz.github.io/karen/consumption.html" class="btn btn-primary">소비설문</a>
-          <a href="https://katumiz.github.io/karen/kiosk-survey.html" class="btn btn-secondary">키오스크설문</a>
+          <a href="#" class="btn btn-primary">소비설문</a>
+          <a href="#" class="btn btn-secondary">키오스크설문</a>
         </div>
 
         <div class="mini-note">since 2026</div>
