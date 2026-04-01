@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>키오스크 설문조사</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {font-family:"Noto Sans KR"; background:#f5f7fb; margin:0;}
+.wrap {max-width:800px; margin:auto; padding:20px;}
+.card {background:#fff; padding:20px; border-radius:20px; margin-top:20px;}
+.hidden {display:none;}
+button {padding:12px; border:none; border-radius:10px; margin-top:10px; cursor:pointer;}
+.primary {background:#2563eb; color:#fff;}
+.voice {background:#e0ecff;}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<div class="card">
+<h2>키오스크 이용 설문</h2>
+
+<label>이름</label>
+<input id="name" style="width:100%; padding:10px;">
+
+<div id="q1Box">
+<label id="q1Label">키오스크를 혼자 사용할 수 있습니까?</label>
+<select id="q1" onchange="next(2)">
+<option value="">선택</option>
+<option value="independent">가능</option>
+<option value="partial">도움 필요</option>
+<option value="difficult">불가능</option>
+</select>
+<button class="voice" onclick="speak('q1Label')">🔊</button>
+</div>
+
+<div id="q2Box" class="hidden">
+<label id="q2Label">어려운 이유는?</label>
+<select id="q2" onchange="next(3)">
+<option value="">선택</option>
+<option value="smallText">글씨 작음</option>
+<option value="complex">복잡함</option>
+<option value="terms">용어 어려움</option>
+<option value="speed">시간 부족</option>
+</select>
+<button class="voice" onclick="speak('q2Label')">🔊</button>
+</div>
+
+<div id="q3Box" class="hidden">
+<label id="q3Label">구매 포기 경험?</label>
+<select id="q3" onchange="next(4)">
+<option value="">선택</option>
+<option value="yes">있다</option>
+<option value="no">없다</option>
+</select>
+<button class="voice" onclick="speak('q3Label')">🔊</button>
+</div>
+
+<div id="q4Box" class="hidden">
+<label id="q4Label">외출 감소 경험?</label>
+<select id="q4">
+<option value="">선택</option>
+<option value="yes">있다</option>
+<option value="no">없다</option>
+</select>
+<button class="voice" onclick="speak('q4Label')">🔊</button>
+</div>
+
+<button class="primary" onclick="submit()">제출</button>
+
+</div>
+
+<div class="card">
+<input id="pw" placeholder="관리자 비밀번호">
+<button onclick="admin()">통계보기</button>
+</div>
+
+<div id="adminBox" class="card hidden">
+<h3>통계</h3>
+<canvas id="chart"></canvas>
+</div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 🔥 여기 네 Firebase 값 넣어
+const firebaseConfig = {
+  apiKey: "AIzaSyBPPUut-J5ZQL-men5X6b2992oihSxgw88",
+  authDomain: "karen-c7aee.firebaseapp.com",
+  projectId: "karen-c7aee",
+  storageBucket: "karen-c7aee.firebasestorage.app",
+  messagingSenderId: "649004770122",
+  appId: "1:649004770122:web:3fb67d6182d0a8dcde97b3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const col = collection(db,"kioskSurveyResponses");
+
+// 음성
+window.speak = (id)=>{
+  let msg = new SpeechSynthesisUtterance(document.getElementById(id).innerText);
+  msg.lang="ko-KR";
+  speechSynthesis.speak(msg);
+}
+
+// 다음문항
+window.next=(n)=>{
+  document.getElementById("q"+n+"Box").classList.remove("hidden");
+}
+
+// 제출
+window.submit=async ()=>{
+  let data={
+    name:document.getElementById("name").value,
+    q1:q1.value,
+    q2:q2.value,
+    q3:q3.value,
+    q4:q4.value
+  }
+
+  if(!data.q4) return alert("끝까지 입력하세요");
+
+  await addDoc(col,data);
+  alert("완료");
+}
+
+// 관리자
+window.admin=async ()=>{
+  if(document.getElementById("pw").value!="1313") return;
+
+  document.getElementById("adminBox").classList.remove("hidden");
+
+  let snap=await getDocs(col);
+  let arr=snap.docs.map(d=>d.data());
+
+  let yes=arr.filter(a=>a.q1=="independent").length;
+  let no=arr.length-yes;
+
+  new Chart(document.getElementById("chart"),{
+    type:"pie",
+    data:{
+      labels:["사용가능","어려움"],
+      datasets:[{data:[yes,no]}]
+    }
+  });
+}
+</script>
+
+</body>
+</html>
