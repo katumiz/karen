@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karen's Home</title>
+  <style>
+    :root {
+      --bg1: #fff9f4;
+      --bg2: #fde8e8;
+      --card: rgba(255,255,255,0.72);
+      --line: #2f2a26;
+      --accent: #e97b7b;
+      --accent2: #f6c56f;
+      --text: #3b322d;
+      --muted: #7a6d65;
+      --shadow: 0 18px 45px rgba(90, 63, 49, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #fffdf8 0%, transparent 30%),
+        radial-gradient(circle at right 20%, #ffe6ea 0%, transparent 25%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 700px;
+      padding: 28px;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .text-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      padding: 52px 44px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.8);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    h1 {
+      margin: 20px 0 14px;
+      font-size: clamp(46px, 8vw, 86px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .script {
+      display: block;
+      font-family: "Brush Script MT", "Segoe Script", cursive;
+      color: var(--accent);
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1;
+      margin-top: 6px;
+      transform: rotate(-3deg);
+    }
+
+    .desc {
+      margin: 22px auto 0;
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-weight: 800;
+      font-size: 15px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #f29e9e);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.86);
+      color: var(--text);
+      border: 1px solid rgba(60,50,45,0.08);
+    }
+
+    .mini-note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #9a8f88;
+    }
+
+    .float {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.4;
+    }
+
+    .f1 { width: 140px; height: 140px; background: #ffd6dc; top: -22px; right: 30px; }
+    .f2 { width: 100px; height: 100px; background: #fff0be; bottom: 36px; left: 28px; }
+
+    @media (max-width: 600px) {
+      .text-card { padding: 38px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <article class="text-card">
+        <div class="float f1"></div>
+        <div class="float f2"></div>
+
+        <div class="badge">
+          <span class="dot"></span>
+          cozy, lovely, and a little playful
+        </div>
+
+        <h1>
+          Karen's<br>
+          <span class="script">Home</span>
+        </h1>
+
+        <p class="desc">
+          HI~!
+        </p>
+
+        <div class="actions">
+          <a href="https://katumiz.github.io/karen/consumption.html" class="btn btn-primary">소비설문</a>
+          <a href="https://katumiz.github.io/karen/kiosk-survey.html" class="btn btn-secondary">키오스크설문</a>
+        </div>
+
+        <div class="mini-note">since 2026</div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>
