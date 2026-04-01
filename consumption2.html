@@ -1,0 +1,58 @@
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyBPPUut-J5ZQL-men5X6b2992oihSxgw88",
+  authDomain: "karen-c7aee.firebaseapp.com",
+  projectId: "karen-c7aee",
+  storageBucket: "karen-c7aee.firebasestorage.app",
+  messagingSenderId: "649004770122",
+  appId: "1:649004770122:web:3fb67d6182d0a8dcde97b3",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 설문 제출 함수
+  window.addRecord = async function() {
+    const name = document.getElementById("name").value;
+    const allowance = Number(document.getElementById("allowance").value);
+    const food = Number(document.getElementById("food").value);
+    const transport = Number(document.getElementById("transport").value);
+    const hobby = Number(document.getElementById("hobby").value);
+    const shopping = Number(document.getElementById("shopping").value);
+    const saving = Number(document.getElementById("saving").value);
+    const impulse = Number(document.getElementById("impulse").value);
+
+    if (!name || allowance <= 0) {
+      alert("필수값 입력");
+      return;
+    }
+
+    await addDoc(collection(db, "surveyResponses"), {
+      name,
+      allowance,
+      food,
+      transport,
+      hobby,
+      shopping,
+      saving,
+      impulse,
+      createdAt: new Date()
+    });
+
+    alert("제출 완료!");
+  }
+
+  // 관리자용 데이터 불러오기
+  window.loadAllData = async function() {
+    const querySnapshot = await getDocs(collection(db, "surveyResponses"));
+
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+    });
+
+    alert("콘솔에서 데이터 확인!");
+  }
+</script>
